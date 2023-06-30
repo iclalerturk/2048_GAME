@@ -1,6 +1,102 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+void print_matrix(int N, int matrix[][4]);
+void zero_matrix(int N, int matrix[][4]);
+void creat_mat(int N, int matrix[][4]);
+void new_element(int N, int matrix[][4]);
+void count_element1(int *k, int matrix[][4], int coordinate[][2]);
+void count_element2(int *k, int matrix[][4], int coordinate[][2]);
+void up(int k, int *scor, int matrix[][4], int coordinate[][2]);
+void down(int k, int *scor, int matrix[][4], int coordinate[][2]);
+void right(int k, int *scor, int matrix[][4], int coordinate[][2]);
+void left(int k, int *scor, int matrix[][4], int coordinate[][2]);
+int main (){
+	srand(time(NULL));
+	int k=0, scor=0,count,i,j;
+	char move;
+	int matrix[4][4], coordinate[16][2];
+	printf("2048 GAME\n");
+	zero_matrix(4,matrix);
+	creat_mat(4,matrix);
+	print_matrix(4,matrix);
+	printf("up: u\ndown: d\nright: r\nleft: l");
+	k=0;
+	count_element1(&k,matrix,coordinate);
+	while(k<16 && scor<2048){
+		k=0;
+		printf("\nmove: ");
+		scanf(" %c",&move);		
+		if(move=='u'){
+			count_element1(&k,matrix,coordinate);
+			up(k,&scor,matrix,coordinate);
+			new_element(4,matrix);
+			print_matrix(4,matrix);
+			printf("\nscor: %d\n",scor);			
+		}
+		else if(move=='d'){
+			count_element2(&k,matrix,coordinate);
+			down(k,&scor,matrix,coordinate);
+			new_element(4,matrix);
+			print_matrix(4,matrix);
+			printf("\nscor: %d\n",scor);
+		}
+		else if(move=='r'){
+			count_element2(&k,matrix,coordinate);
+			right(k,&scor,matrix,coordinate);
+			new_element(4,matrix);
+			print_matrix(4,matrix);
+			printf("\nscor: %d\n",scor);
+		}
+		else if(move=='l'){
+			count_element1(&k,matrix,coordinate);
+			left(k,&scor,matrix,coordinate);
+			new_element(4,matrix);
+			print_matrix(4,matrix);
+			printf("\nscor: %d\n",scor);
+		}
+		else{
+			printf("\nwrong access!!!\n");
+		}
+		k=0;
+		count_element1(&k,matrix,coordinate);
+		count=0;
+		if(k==16){
+			for(i=0;i<4;i++){
+				for(j=1;j<4;j++){
+					if(matrix[i][j]==matrix[i][j-1]){
+						count++;
+					}					
+				}
+			}
+			for(i=0;i<4;i++){
+				for(j=1;j<4;j++){
+					if(matrix[j][i]==matrix[j-1][i]){
+						count++;
+					}					
+				}
+			}
+			if(count>0){
+				k=0;
+			}
+		}	
+	}
+	if(k==16){
+		if(scor==2048){
+			printf("\nCONGRATULATIONS!!!");
+            printf("You reached 2048.");
+		}
+		else{
+			printf("\nGAME OVER");
+            printf("\nYour scor is: %d",scor);
+		}
+	}
+	if(scor==2048){
+			printf("\nCONGRATULATIONS!!!");
+            printf("You reached 2048.");
+	}
+	return 0;
+}
 void print_matrix(int N, int matrix[][4]){
 	int i,j;
 	for(i=0;i<N;i++){
@@ -269,90 +365,4 @@ void left(int k, int *scor, int matrix[][4], int coordinate[][2]){
 		}		
 										
 	}
-}
-int main (){
-	srand(time(NULL));
-	int k=0, scor=0,count,i,j;
-	char move;
-	int matrix[4][4], coordinate[16][2];
-	printf("2048 GAME\n");
-	zero_matrix(4,matrix);
-	creat_mat(4,matrix);
-	print_matrix(4,matrix);
-	printf("up: u\ndown: d\nright: r\nleft: l");
-	k=0;
-	count_element1(&k,matrix,coordinate);
-	while(k<16 && scor<2048){
-		k=0;
-		printf("\nmove: ");
-		scanf(" %c",&move);		
-		if(move=='u'){
-			count_element1(&k,matrix,coordinate);
-			up(k,&scor,matrix,coordinate);
-			new_element(4,matrix);
-			print_matrix(4,matrix);
-			printf("\nscor: %d\n",scor);			
-		}
-		else if(move=='d'){
-			count_element2(&k,matrix,coordinate);
-			down(k,&scor,matrix,coordinate);
-			new_element(4,matrix);
-			print_matrix(4,matrix);
-			printf("\nscor: %d\n",scor);
-		}
-		else if(move=='r'){
-			count_element2(&k,matrix,coordinate);
-			right(k,&scor,matrix,coordinate);
-			new_element(4,matrix);
-			print_matrix(4,matrix);
-			printf("\nscor: %d\n",scor);
-		}
-		else if(move=='l'){
-			count_element1(&k,matrix,coordinate);
-			left(k,&scor,matrix,coordinate);
-			new_element(4,matrix);
-			print_matrix(4,matrix);
-			printf("\nscor: %d\n",scor);
-		}
-		else{
-			printf("\nwrong access!!!\n");
-		}
-		k=0;
-		count_element1(&k,matrix,coordinate);
-		count=0;
-		if(k==16){
-			for(i=0;i<4;i++){
-				for(j=1;j<4;j++){
-					if(matrix[i][j]==matrix[i][j-1]){
-						count++;
-					}					
-				}
-			}
-			for(i=0;i<4;i++){
-				for(j=1;j<4;j++){
-					if(matrix[j][i]==matrix[j-1][i]){
-						count++;
-					}					
-				}
-			}
-			if(count>0){
-				k=0;
-			}
-		}	
-	}
-	if(k==16){
-		if(scor==2048){
-			printf("\nCONGRATULATIONS!!!");
-            printf("You reached 2048.");
-		}
-		else{
-			printf("\nGAME OVER");
-            printf("\nYour scor is: %d",scor);
-		}
-	}
-	if(scor==2048){
-			printf("\nCONGRATULATIONS!!!");
-            printf("You reached 2048.");
-	}
-	return 0;
 }
