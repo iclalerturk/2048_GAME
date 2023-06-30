@@ -275,6 +275,7 @@ int main (){
 	int k=0, scor=0,count,i,j;
 	char move;
 	int matrix[4][4], coordinate[16][2];
+	printf("2048 GAME\n");
 	zero_matrix(4,matrix);
 	creat_mat(4,matrix);
 	print_matrix(4,matrix);
